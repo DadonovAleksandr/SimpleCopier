@@ -2,7 +2,20 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net45;net5.0</TargetFrameworks>
+        <TargetFramework>net45</TargetFramework>
     </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <OutputPath>bin\Debug\SimpleCopier</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <OutputPath>bin\Release\SimpleCopier</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NLog" Version="4.7.9" />
+      <PackageReference Include="NLog.Config" Version="4.7.9" />
+    </ItemGroup>
 
 </Project>

@@ -1,11 +1,20 @@
 ﻿using System;
+using NLog;
 
 namespace SimpleCopier
 {
     class Program
     {
+        private static Logger log = LogManager.GetCurrentClassLogger();
         static void Main(string[] args)
         {
+            
+            #if DEBUG
+            log.Info("Запуск приложения в режиме DEBUG");
+            #else
+            log.Info("Запуск приложения в режиме RELEASE");
+            #endif
+            
             var copier = new FileCopier();
             InitRoutes(ref copier);
             CopierProcess(ref copier);
@@ -14,98 +23,127 @@ namespace SimpleCopier
         
         private static void InitRoutes(ref FileCopier copier)
         {
-            // Alarms
+            #if RELEASE
+            var sourcePrefix = "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha";
+            var destinationPrefix = "C:\\ProjectVU";
+            #endif
+            #if DEBUG
+            
+            var sourcePrefix = "W:\\Alpha";
+            var destinationPrefix = "X:\\ProjectVU";
+            #endif
+            try
+            {
+                // Alarms
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\Config\\Alarms\\Alarm_Hist\\presetfilters.xml",
-                "C:\\ProjectVU\\Config\\Alarms\\Alarm_Hist\\presetfilters.xml");
+                $"{sourcePrefix}\\Config\\Alarms\\Alarm_Hist\\presetfilters.xml",
+                $"{destinationPrefix}\\Config\\Alarms\\Alarm_Hist\\presetfilters.xml");
             // Tools+
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\Config\\Tools+\\OipUst.tcf",
-                "C:\\ProjectVU\\Config\\Tools+\\OipUst.tcf");
+                $"{sourcePrefix}\\Config\\Tools+\\OipUst.tcf",
+                $"{destinationPrefix}\\Config\\Tools+\\OipUst.tcf");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\Config\\Tools+\\TimeUst.tcf",
-                "C:\\ProjectVU\\Config\\Tools+\\TimeUst.tcf");
+                $"{sourcePrefix}\\Config\\Tools+\\TimeUst.tcf",
+                $"{destinationPrefix}\\Config\\Tools+\\TimeUst.tcf");
             // Trends
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\Config\\Trends\\Trend_Hist\\TrendsUserTree.xml",
-                "C:\\ProjectVU\\Config\\Trends\\Trend_Hist\\TrendsUserTree.xml");
+                $"{sourcePrefix}\\Config\\Trends\\Trend_Hist\\TrendsUserTree.xml",
+                $"{destinationPrefix}\\Config\\Trends\\Trend_Hist\\TrendsUserTree.xml");
             
             // Maps
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\Maps\\АРМ Резервное\\plc_opcua.xml",
-                "C:\\ProjectVU\\Maps\\plc_opcua.xml");
+                $"{sourcePrefix}\\Maps\\АРМ Резервное\\plc_opcua.xml",
+                $"{destinationPrefix}\\Maps\\plc_opcua.xml");
             
             // Maps
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_Aggregators.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_Aggregators.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_Aggregators.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_Aggregators.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_Ai31Sensors.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_Ai31Sensors.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_Ai31Sensors.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_Ai31Sensors.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_Diag.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_Diag.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_Diag.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_Diag.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_FireAPUs.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_FireAPUs.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_FireAPUs.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_FireAPUs.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_FireSensors.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_FireSensors.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_FireSensors.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_FireSensors.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_FireZones.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_FireZones.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_FireZones.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_FireZones.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_KTPRP.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_KTPRP.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_KTPRP.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_KTPRP.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_KTPRS.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_KTPRS.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_KTPRS.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_KTPRS.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_Messages.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_Messages.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_Messages.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_Messages.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_ODP.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_ODP.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_ODP.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_ODP.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_OIPs.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_OIPs.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_OIPs.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_OIPs.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_OIPsKZO.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_OIPsKZO.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_OIPsKZO.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_OIPsKZO.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_UBDs.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_UBDs.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_UBDs.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_UBDs.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_UPTS.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_UPTS.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_UPTS.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_UPTS.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_UVSs.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_UVSs.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_UVSs.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_UVSs.omx");
             copier.AddRoute(
-                "Z:\\ASU PT\\Configurator\\GUIConfigurator\\bin\\Debug\\Generate\\Alpha\\OMXs\\PLC_UZD.omx",
-                "C:\\ProjectVU\\OMXs\\PLC_UZD.omx");
+                $"{sourcePrefix}\\OMXs\\PLC_UZD.omx",
+                $"{destinationPrefix}\\OMXs\\PLC_UZD.omx");
+            }
+            catch (Exception e)
+            {
+                log.Error($"Ошибка при загрузке маршрутов копирования: {e.ToString()}");
+                throw;
+            }
         }
         
         private static void CopierProcess(ref FileCopier copier)
         {
-            Console.WriteLine("SimpleCopier");
-            var userAnswer = string.Empty;
-            do
+            try
             {
-                Console.Write("Input command: ");
-                userAnswer = Console.ReadLine();
-                switch (userAnswer)
+                Console.WriteLine("SimpleCopier");
+                var userAnswer = string.Empty;
+                do
                 {
-                    case "copy":
-                        copier.Copy();
-                        break;
-                    case "exit":
-                        return;
-                    default:
-                        Console.WriteLine("Command not accepted");
-                        break;
-                }
-            } while (true);
+                    Console.Write("Input command: ");
+                    userAnswer = Console.ReadLine();
+                    log.Info($"Получена команда {userAnswer}");
+                    switch (userAnswer)
+                    {
+                        case "copy":
+                            log.Info("Выполнение команды копирования");
+                            copier.Copy();
+                            break;
+                        case "exit":
+                            log.Info("Выполнение команды завершения работы");
+                            return;
+                        default:
+                            log.Info("Команда не может быть идентифицированна");
+                            Console.WriteLine("Command not accepted");
+                            break;
+                    }
+                } while (true);
+            }
+            catch (Exception e)
+            {
+                log.Error($"Ошибка при выполнении команды от пользователя: {e.ToString()}");
+                throw;
+            }
         }
 
     }

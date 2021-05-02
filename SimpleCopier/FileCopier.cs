@@ -6,52 +6,42 @@ using NLog;
 
 namespace SimpleCopier
 {
+    /// <summary>
+    /// Файловый копир
+    /// </summary>
     public class FileCopier
     {
         private static Logger log = LogManager.GetCurrentClassLogger();
         
-        public List<CopyRoute> Routes;
+        public CopyRoutes Routes;
         public FileCopier()
         {
             log.Trace("Инициализация объекта FileCopier");
-            Routes = new List<CopyRoute>();
+            Routes = new CopyRoutes("routes.json");
         }
 
         public void AddRoute(string source, string destination)
         {
             log.Trace($"Добавление маршрута копирования: {source} -> {destination}");
-            Routes.Add(new CopyRoute(source, destination));
+            Routes.Add(source, destination);
         }
 
         public void Copy()
         {
             foreach (var r in Routes)
             {
-                if (File.Exists(r.Source))
+                var cr = (CopyRoute)r;
+                if (File.Exists(cr.Source))
                 {
-                    log.Trace($"Копирование {r.Source} -> {r.Destination}");
-                    File.Copy(r.Source, r.Destination, true);
+                    log.Trace($"Копирование {cr.Source} -> {cr.Destination}");
+                    File.Copy(cr.Source, cr.Destination, true);
                 }
                 else
                 {
-                    log.Error($"Файл {r.Source} не существует");
-                    Console.WriteLine($"File {r.Source} does not exist");
+                    log.Error($"Файл {cr.Source} не существует");
+                    Console.WriteLine($"File {cr.Source} does not exist");
                 }
             }
-        }
-    }
-
-    public class CopyRoute
-    {
-        private static Logger log = LogManager.GetCurrentClassLogger();
-        public string Source { get; set; }
-        public string Destination { get; set; }
-
-        public CopyRoute(string src, string dst)
-        {
-            log.Trace("Инициализация объекта CopyRoute");
-            Source = src;
-            Destination = dst;
         }
     }
 }
